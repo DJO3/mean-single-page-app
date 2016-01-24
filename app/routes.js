@@ -1,16 +1,18 @@
+var express = require('express')
+var router = express.Router()
 var Nerd = require('./models/nerd')
 
-module.exports = function (app) {
-  app.get('/api/nerds', function (req, res) {
-    Nerd.find(function (err, nerds) {
-      if (err) {
-        res.send(err)
-      }
-      res.json(nerds) // return all nerds in JSON format
-    })
+router.get('/api/nerds', function (req, res, next) {
+  Nerd.find(function (err, nerds) {
+    if (err) {
+      res.send(err)
+    }
+    res.json(nerds) // return all nerds in JSON format
   })
+})
 
-  app.get('*', function (req, res) {
-    res.sendfile('./public/views/index.html') // load our public/index.html file
-  })
-}
+router.get('/', function (req, res, next) {
+  res.sendfile('./public/views/index.html') // load our public/index.html file
+})
+
+module.exports = router
